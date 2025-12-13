@@ -1,0 +1,51 @@
+[package]
+name = "mkframe"
+version = "0.1.0"
+edition = "2024"
+description = "A minimal Wayland UI toolkit with proper popup/overlay support"
+license = "GPL-3.0"
+repository = "https://github.com/monokrome/mkframe"
+readme = "README.md"
+keywords = ["wayland", "gui", "toolkit", "linux"]
+categories = ["gui", "rendering"]
+
+[features]
+default = ["gpu"]
+gpu = ["wgpu", "pollster", "bytemuck"]
+
+[dependencies]
+# Wayland
+smithay-client-toolkit = { version = "0.19", features = ["calloop"] }
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client"] }
+wayland-protocols-wlr = { version = "0.3", features = ["client"] }
+wayland-backend = "0.3"
+wayland-scanner = "0.31"
+
+# Rendering - Software (always available)
+tiny-skia = "0.11"
+softbuffer = "0.4"
+
+# Rendering - GPU (optional, enabled by default)
+wgpu = { version = "23", optional = true }
+pollster = { version = "0.4", optional = true }
+bytemuck = { version = "1.14", optional = true, features = ["derive"] }
+
+# Text
+cosmic-text = "0.12"
+
+# Image loading
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "gif", "webp"] }
+
+# System
+libc = "0.2"
+log = "0.4"
+
+[dev-dependencies]
+# For examples
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true

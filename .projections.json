@@ -1,0 +1,19 @@
+{
+  "src/*.rs": {
+    "type": "source",
+    "alternate": "tests/{}.rs"
+  },
+  "tests/*.rs": {
+    "type": "test",
+    "alternate": "src/{}.rs"
+  },
+  "examples/*.rs": {
+    "type": "example"
+  },
+  "src/lib.rs": {
+    "type": "lib"
+  },
+  "Cargo.toml": {
+    "type": "config"
+  }
+}
