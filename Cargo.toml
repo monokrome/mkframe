@@ -1,6 +1,6 @@
 [package]
 name = "mkframe"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "A minimal Wayland UI toolkit with proper popup/overlay support"
 license = "GPL-3.0"

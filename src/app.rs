@@ -664,10 +664,11 @@ impl App {
             return false;
         };
 
-        // Build URI list data
+        // Build URI list data with absolute paths
         let uri_list: String = files
             .iter()
-            .filter_map(|p| p.to_str())
+            .filter_map(|p| p.canonicalize().ok())
+            .filter_map(|p| p.to_str().map(|s| s.to_string()))
             .map(|s| format!("file://{}\r\n", s))
             .collect();
 
