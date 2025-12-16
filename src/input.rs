@@ -10,38 +10,9 @@ impl KeyEvent {
     /// Convert the key event to a string representation suitable for keybinding matching.
     /// Returns None for keys that don't produce meaningful input (like bare modifier presses).
     pub fn to_key_string(&self) -> Option<String> {
-        // Handle Ctrl combinations - return special prefix
+        // Handle Ctrl combinations
         if self.modifiers.ctrl {
-            let key_char = match self.key {
-                Key::A => Some('a'),
-                Key::B => Some('b'),
-                Key::C => Some('c'),
-                Key::D => Some('d'),
-                Key::E => Some('e'),
-                Key::F => Some('f'),
-                Key::G => Some('g'),
-                Key::H => Some('h'),
-                Key::I => Some('i'),
-                Key::J => Some('j'),
-                Key::K => Some('k'),
-                Key::L => Some('l'),
-                Key::M => Some('m'),
-                Key::N => Some('n'),
-                Key::O => Some('o'),
-                Key::P => Some('p'),
-                Key::Q => Some('q'),
-                Key::R => Some('r'),
-                Key::S => Some('s'),
-                Key::T => Some('t'),
-                Key::U => Some('u'),
-                Key::V => Some('v'),
-                Key::W => Some('w'),
-                Key::X => Some('x'),
-                Key::Y => Some('y'),
-                Key::Z => Some('z'),
-                _ => None,
-            };
-            return key_char.map(|c| format!("C-{}", c));
+            return self.key.to_base_char().map(|c| format!("C-{}", c));
         }
 
         // If we have UTF-8 text and it's printable, use it directly
@@ -55,351 +26,8 @@ impl KeyEvent {
             }
         }
 
-        // Fallback: map keys to strings
-        let s = match self.key {
-            // Special keys that produce specific strings
-            Key::Enter => "\n",
-            Key::Escape => "\x1b",
-            Key::Backspace => "\x08",
-            Key::Tab => "\t",
-            Key::Space => " ",
-            // Letters (fallback if text wasn't available)
-            Key::A => {
-                if self.modifiers.shift {
-                    "A"
-                } else {
-                    "a"
-                }
-            }
-            Key::B => {
-                if self.modifiers.shift {
-                    "B"
-                } else {
-                    "b"
-                }
-            }
-            Key::C => {
-                if self.modifiers.shift {
-                    "C"
-                } else {
-                    "c"
-                }
-            }
-            Key::D => {
-                if self.modifiers.shift {
-                    "D"
-                } else {
-                    "d"
-                }
-            }
-            Key::E => {
-                if self.modifiers.shift {
-                    "E"
-                } else {
-                    "e"
-                }
-            }
-            Key::F => {
-                if self.modifiers.shift {
-                    "F"
-                } else {
-                    "f"
-                }
-            }
-            Key::G => {
-                if self.modifiers.shift {
-                    "G"
-                } else {
-                    "g"
-                }
-            }
-            Key::H => {
-                if self.modifiers.shift {
-                    "H"
-                } else {
-                    "h"
-                }
-            }
-            Key::I => {
-                if self.modifiers.shift {
-                    "I"
-                } else {
-                    "i"
-                }
-            }
-            Key::J => {
-                if self.modifiers.shift {
-                    "J"
-                } else {
-                    "j"
-                }
-            }
-            Key::K => {
-                if self.modifiers.shift {
-                    "K"
-                } else {
-                    "k"
-                }
-            }
-            Key::L => {
-                if self.modifiers.shift {
-                    "L"
-                } else {
-                    "l"
-                }
-            }
-            Key::M => {
-                if self.modifiers.shift {
-                    "M"
-                } else {
-                    "m"
-                }
-            }
-            Key::N => {
-                if self.modifiers.shift {
-                    "N"
-                } else {
-                    "n"
-                }
-            }
-            Key::O => {
-                if self.modifiers.shift {
-                    "O"
-                } else {
-                    "o"
-                }
-            }
-            Key::P => {
-                if self.modifiers.shift {
-                    "P"
-                } else {
-                    "p"
-                }
-            }
-            Key::Q => {
-                if self.modifiers.shift {
-                    "Q"
-                } else {
-                    "q"
-                }
-            }
-            Key::R => {
-                if self.modifiers.shift {
-                    "R"
-                } else {
-                    "r"
-                }
-            }
-            Key::S => {
-                if self.modifiers.shift {
-                    "S"
-                } else {
-                    "s"
-                }
-            }
-            Key::T => {
-                if self.modifiers.shift {
-                    "T"
-                } else {
-                    "t"
-                }
-            }
-            Key::U => {
-                if self.modifiers.shift {
-                    "U"
-                } else {
-                    "u"
-                }
-            }
-            Key::V => {
-                if self.modifiers.shift {
-                    "V"
-                } else {
-                    "v"
-                }
-            }
-            Key::W => {
-                if self.modifiers.shift {
-                    "W"
-                } else {
-                    "w"
-                }
-            }
-            Key::X => {
-                if self.modifiers.shift {
-                    "X"
-                } else {
-                    "x"
-                }
-            }
-            Key::Y => {
-                if self.modifiers.shift {
-                    "Y"
-                } else {
-                    "y"
-                }
-            }
-            Key::Z => {
-                if self.modifiers.shift {
-                    "Z"
-                } else {
-                    "z"
-                }
-            }
-            // Punctuation
-            Key::Period => {
-                if self.modifiers.shift {
-                    ">"
-                } else {
-                    "."
-                }
-            }
-            Key::Comma => {
-                if self.modifiers.shift {
-                    "<"
-                } else {
-                    ","
-                }
-            }
-            Key::Semicolon => {
-                if self.modifiers.shift {
-                    ":"
-                } else {
-                    ";"
-                }
-            }
-            Key::Colon => ":",
-            Key::Slash => {
-                if self.modifiers.shift {
-                    "?"
-                } else {
-                    "/"
-                }
-            }
-            Key::Backslash => {
-                if self.modifiers.shift {
-                    "|"
-                } else {
-                    "\\"
-                }
-            }
-            Key::Minus => {
-                if self.modifiers.shift {
-                    "_"
-                } else {
-                    "-"
-                }
-            }
-            Key::Equals => {
-                if self.modifiers.shift {
-                    "+"
-                } else {
-                    "="
-                }
-            }
-            Key::BracketLeft => {
-                if self.modifiers.shift {
-                    "{"
-                } else {
-                    "["
-                }
-            }
-            Key::BracketRight => {
-                if self.modifiers.shift {
-                    "}"
-                } else {
-                    "]"
-                }
-            }
-            Key::Quote => {
-                if self.modifiers.shift {
-                    "\""
-                } else {
-                    "'"
-                }
-            }
-            Key::Grave => {
-                if self.modifiers.shift {
-                    "~"
-                } else {
-                    "`"
-                }
-            }
-            // Numbers
-            Key::Num0 => {
-                if self.modifiers.shift {
-                    ")"
-                } else {
-                    "0"
-                }
-            }
-            Key::Num1 => {
-                if self.modifiers.shift {
-                    "!"
-                } else {
-                    "1"
-                }
-            }
-            Key::Num2 => {
-                if self.modifiers.shift {
-                    "@"
-                } else {
-                    "2"
-                }
-            }
-            Key::Num3 => {
-                if self.modifiers.shift {
-                    "#"
-                } else {
-                    "3"
-                }
-            }
-            Key::Num4 => {
-                if self.modifiers.shift {
-                    "$"
-                } else {
-                    "4"
-                }
-            }
-            Key::Num5 => {
-                if self.modifiers.shift {
-                    "%"
-                } else {
-                    "5"
-                }
-            }
-            Key::Num6 => {
-                if self.modifiers.shift {
-                    "^"
-                } else {
-                    "6"
-                }
-            }
-            Key::Num7 => {
-                if self.modifiers.shift {
-                    "&"
-                } else {
-                    "7"
-                }
-            }
-            Key::Num8 => {
-                if self.modifiers.shift {
-                    "*"
-                } else {
-                    "8"
-                }
-            }
-            Key::Num9 => {
-                if self.modifiers.shift {
-                    "("
-                } else {
-                    "9"
-                }
-            }
-            // Keys that don't produce text
-            _ => return None,
-        };
-        Some(s.to_string())
+        // Fallback: use key's character representation
+        self.key.to_string_with_shift(self.modifiers.shift)
     }
 }
 
@@ -515,7 +143,85 @@ pub enum Key {
     Unknown(u32),
 }
 
+/// Mapping of keys to their (unshifted, shifted) character representations
+const KEY_CHARS: &[(Key, (&str, &str))] = &[
+    // Letters - shifted is uppercase
+    (Key::A, ("a", "A")),
+    (Key::B, ("b", "B")),
+    (Key::C, ("c", "C")),
+    (Key::D, ("d", "D")),
+    (Key::E, ("e", "E")),
+    (Key::F, ("f", "F")),
+    (Key::G, ("g", "G")),
+    (Key::H, ("h", "H")),
+    (Key::I, ("i", "I")),
+    (Key::J, ("j", "J")),
+    (Key::K, ("k", "K")),
+    (Key::L, ("l", "L")),
+    (Key::M, ("m", "M")),
+    (Key::N, ("n", "N")),
+    (Key::O, ("o", "O")),
+    (Key::P, ("p", "P")),
+    (Key::Q, ("q", "Q")),
+    (Key::R, ("r", "R")),
+    (Key::S, ("s", "S")),
+    (Key::T, ("t", "T")),
+    (Key::U, ("u", "U")),
+    (Key::V, ("v", "V")),
+    (Key::W, ("w", "W")),
+    (Key::X, ("x", "X")),
+    (Key::Y, ("y", "Y")),
+    (Key::Z, ("z", "Z")),
+    // Numbers - shifted is symbols
+    (Key::Num0, ("0", ")")),
+    (Key::Num1, ("1", "!")),
+    (Key::Num2, ("2", "@")),
+    (Key::Num3, ("3", "#")),
+    (Key::Num4, ("4", "$")),
+    (Key::Num5, ("5", "%")),
+    (Key::Num6, ("6", "^")),
+    (Key::Num7, ("7", "&")),
+    (Key::Num8, ("8", "*")),
+    (Key::Num9, ("9", "(")),
+    // Punctuation
+    (Key::Period, (".", ">")),
+    (Key::Comma, (",", "<")),
+    (Key::Semicolon, (";", ":")),
+    (Key::Colon, (":", ":")),
+    (Key::Slash, ("/", "?")),
+    (Key::Backslash, ("\\", "|")),
+    (Key::Minus, ("-", "_")),
+    (Key::Equals, ("=", "+")),
+    (Key::BracketLeft, ("[", "{")),
+    (Key::BracketRight, ("]", "}")),
+    (Key::Quote, ("'", "\"")),
+    (Key::Grave, ("`", "~")),
+    // Special keys
+    (Key::Enter, ("\n", "\n")),
+    (Key::Escape, ("\x1b", "\x1b")),
+    (Key::Backspace, ("\x08", "\x08")),
+    (Key::Tab, ("\t", "\t")),
+    (Key::Space, (" ", " ")),
+];
+
 impl Key {
+    /// Get the base lowercase character for this key (for Ctrl combinations)
+    pub fn to_base_char(&self) -> Option<char> {
+        KEY_CHARS
+            .iter()
+            .find(|(k, _)| k == self)
+            .and_then(|(_, (base, _))| base.chars().next())
+            .filter(|c| c.is_ascii_alphabetic())
+    }
+
+    /// Get the string representation of this key, considering shift state
+    pub fn to_string_with_shift(&self, shifted: bool) -> Option<String> {
+        KEY_CHARS
+            .iter()
+            .find(|(k, _)| k == self)
+            .map(|(_, (base, shift))| if shifted { *shift } else { *base }.to_string())
+    }
+
     pub fn from_keysym(keysym: u32) -> Self {
         use smithay_client_toolkit::seat::keyboard::Keysym;
 
