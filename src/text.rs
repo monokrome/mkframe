@@ -190,6 +190,22 @@ impl TextRenderer {
 
         (width, height)
     }
+
+    /// Check if any loaded font supports the given character.
+    /// Returns true if at least one font can render this codepoint.
+    pub fn has_glyph(&mut self, c: char) -> bool {
+        let codepoint = c as u32;
+        let face_ids: Vec<_> = self.font_system.db().faces().map(|f| f.id).collect();
+        for face_id in face_ids {
+            if let Some(font) = self.font_system.get_font(face_id) {
+                let codepoints = font.unicode_codepoints();
+                if codepoints.binary_search(&codepoint).is_ok() {
+                    return true;
+                }
+            }
+        }
+        false
+    }
 }
 
 impl Default for TextRenderer {

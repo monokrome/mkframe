@@ -1554,8 +1554,12 @@ impl AttachedSurfaceHandler for App {
         height: u32,
     ) {
         if let Some(attached) = self.windows.get_attached_surface_mut(surface_id) {
-            attached.width = width;
-            attached.height = height;
+            // Only update dimensions if compositor provides non-zero size
+            // Otherwise keep our requested dimensions
+            if width > 0 && height > 0 {
+                attached.width = width;
+                attached.height = height;
+            }
             attached.ack_configure(serial);
             attached.dirty = true;
         }
